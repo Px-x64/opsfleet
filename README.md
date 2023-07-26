@@ -30,6 +30,7 @@ Command to deploy the cluster.
 aws eks --region $(terraform output -raw region) update-kubeconfig --name $(terraform output -raw cluster_name)
 ```
 /* untested, I'm lazy )) */
+
 8. Once cluster is deployed, navigate to 01_terraform/deployments/02_iam folder, and perform additional role deployment with the same
 ```
 terraform init
@@ -57,3 +58,13 @@ spec:
 EOF
 ```
 Namespace and Service Account name can be found and configured in 01_terraform/modules/iam/k8s-service-account.tf file
+
+## Task 02: Managing secrets on Kubernetes
+
+A couple of options could be used according to https://waswani.medium.com/integrating-secrets-manager-with-aws-eks-79c93e70c74e article.
+But taking into account provided limitations: "they have a small team and their capacity for self-hosted solutions is limited" the best option would be using AWS Secrets Manager and "Kubernetes Secrets Store CSI Driver".
+A good article from AWS could be found on this link: https://archive.eksworkshop.com/beginner/194_secrets_manager/.
+
+Another viable solution would be using managed Vault deployment, using one of the following guides
+https://aws.amazon.com/solutions/partners/eks-vault/
+https://developer.hashicorp.com/vault/tutorials/cloud-ops/vault-eks
